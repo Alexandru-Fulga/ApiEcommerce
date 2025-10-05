@@ -5,7 +5,7 @@ namespace ApiEcommerce.Mapping;
 
 public static class MappingConfig
 {
-    public static CategoryDto ToDto(this Category category)
+    public static CategoryDto ToCategoryDto(this Category category)
     {
         return new CategoryDto
         {
@@ -33,6 +33,6 @@ public static class MappingConfig
 
     public static IEnumerable<CategoryDto> ToDtoList(this IEnumerable<Category> categories)
     {
-        return categories.Select(c => c.ToDto());
+        return categories.Select(c => c.ToCategoryDto());
     }
 }

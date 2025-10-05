@@ -11,12 +11,14 @@ namespace ApiEcommerce.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
+        // Constructor
 
         public CategoriesController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
+        // GET ALL CATEGORIES
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetCategories()
@@ -26,6 +28,24 @@ namespace ApiEcommerce.Controllers
             return Ok(categoriesDto);
         }
 
+        // GET CATEGORY BY ID
+        [HttpGet("{id:int}", Name = "GetCategoryById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetCategoryById(int id)
+        {
+            if (!_categoryRepository.CategoryExists(id))
+            {
+                return NotFound();
+            }
+
+            var category = _categoryRepository.GetCategoryById(id);
+            var categoryDto = category.ToCategoryDto();
+            return Ok(categoryDto);
+        }
+
+
+        // POST NEW CATEGORY
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,7 +71,7 @@ namespace ApiEcommerce.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetCategory", new { id = category.Id }, category.ToDto());
+            return CreatedAtRoute("GetCategoryById", new { id = category.Id }, category.ToCategoryDto());
         }
     }
 }
