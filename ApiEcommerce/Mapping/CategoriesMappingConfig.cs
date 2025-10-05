@@ -3,7 +3,7 @@ using ApiEcommerce.Models.Dtos;
 
 namespace ApiEcommerce.Mapping;
 
-public static class MappingConfig
+public static class CategoriesMappingConfig
 {
     public static CategoryDto ToCategoryDto(this Category category)
     {
