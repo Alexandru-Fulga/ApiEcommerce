@@ -49,7 +49,16 @@ public class CategoryRepository : ICategoryRepository
 
     public bool Save()
     {
-        return _db.SaveChanges() > 0 ? true : false;
+        try
+        {
+            _db.SaveChanges();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return false;
+        }
     }
 
     public bool UpdateCategory(Category category)
